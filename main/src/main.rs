@@ -8,68 +8,83 @@ use std::fs::File;
 use std::io::prelude::*;
 //mod file_io::file_reader as files;
 use std::io::{BufRead, BufReader, Bytes};
-//mod buscaminas;
+use std::ops::Add;
+mod buscaminas;
 //mod interaccion_usuario;
 
-//use buscaminas::jugar;
+use buscaminas::jugar;
 //use interaccion_usuario::dar_bienvenida;
 //use interaccion_usuario::mostrar_mapa;
 //use file_reader::read_file_lines;
 
 //use ndarray::Array2;
 
-fn obtenerFila(s: &String) -> &str {
+/*fn cant_columnas(s: &String) -> &str {
     let bytes = s.as_bytes();
-    for (i, &item) in bytes.iter().enumerate() {
+    for (indice, &item) in bytes.iter().enumerate() {
         if item == b'\n' {
-            return &s[0..i];
+            return &s[0..indice];
         }
     }
     &s[..]
+}*/
+/*
+fn cant_columnas(s: &[u8]) -> i32 {
+    let mut cant_columnas = 0;
+    for (indice, &item) in bytes.iter().enumerate() {
+        if item == b'\n' {
+            return
+        }
+    }
+    cant_columnas
 }
+*/
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     let path = &args[1];
 
-    // Retorna el siguiente string
-    // ".*.*.\n..*..\n..*..\n....."
-
     let mut input = fs::read_to_string(path)
         .expect("[ERROR] No se pudo leer el archivo.\n");
 
-    // bytes [46, 42, 46, 42, 46, 10, 46, 46, 42, 46, 46, 10, 46, 46, 42, 46, 46, 10, 46, 46, 46, 46, 46]
-    let bytes = input.as_bytes();
-    //println!("bytes {:?}", bytes);
+    // input: ".*.*.\n..*..\n..*..\n.....\n"
+    input = input.add("\n"); // para que la cantidad de \n sea igual a la de filas
+    jugar(input.as_bytes());
 
-    //let bytes = input.as_bytes();
-    //let mut i = 0;
-    //while (bytes.get(i).eq(b'\n')) && (i<bytes.len()){
-    //    i = i+1;
-    //}
-    //let fila = &bytes[0..i];
-    //println!("{:?}", fila);
-    //let v: bool = true;
+    // bytes: [46, 42, 46, 42, 46, 10, 46, 46, 42, 46, 46, 10, 46, 46, 42, 46, 46, 10, 46, 46, 46, 46, 46]
+    /*
+    let cant_columnas = cant_columnas(bytes);
 
-    let fila = obtenerFila(&input);
+    while bytes.len() > 0 {
 
-    println!("fila:{:?}, cant caracteres: {:?}", fila, fila.len());
-
-
-
-    /*for &caracter in bytes.iter() {
-        if caracter == b'\n' {
-            cant_filas = cant_filas + 1;
-        }
     }
-    cant_filas = cant_filas + 1;
-    println!("cant filas: {}", cant_filas);
 
-    let cant_filas_matriz: usize = cant_filas;
+    println!("fila:{:?}", fila);
 
-    let mapa = Box::new(cant_filas);*/
+    //remuevo fila len +1 por el enter
+    input.remove(0);
+    input.remove(0);
+    input.remove(0);
+    input.remove(0);
+    input.remove(0);
+    input.remove(0);
+
+*/
+    /*
+
+    la funcion que tengo no me va a servir para la ultima fila porque no tiene \n
+    opc1-> agregarle un \n al final (la mas facil)
+    opc2-> solo obtener la primera vez la cant y voy usando eso como medida y eliminando esa cant hasta que quede vacio
+
+    */
+/*
+    let fila2 = cant_columnas(&input);
+    println!("fila:{:?}", fila2);
 
 
+    let mut variable = String::new();
+    variable.remove(0);
+*/
     /*let mut mapa2: [Box<[u8]>; &cant_filas] = [
         Box::new([1, 2, 3]),
         Box::new([4, 4, 5]),
