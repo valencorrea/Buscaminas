@@ -2,6 +2,7 @@
 - crates externos?
 - bloques unsafe?
 - linter de clippy? (este no tiene que arrojar warnings)
+- tiene que tener manejo de errores
 
 - donde documento las funciones y structs?
 - cada tipo de dato en un archivo fuente separado

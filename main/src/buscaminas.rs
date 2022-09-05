@@ -1,4 +1,5 @@
-//mover a otro lado el struct y la imple (creo)
+use std::ops::Add;
+
 #[derive(Debug)]
 struct Buscaminas {
     mapa: Vec<Vec<u8>>,
@@ -73,10 +74,6 @@ fn calcular_bombas_adyacentes(
             }
         }
     }
-    println!(
-        "cant de bombas para [{}][{}] = {}\n\n",
-        indice_filas, indice_columnas, cant_bombas
-    );
     cant_bombas
 }
 
@@ -103,21 +100,29 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
     buscaminas
 }
 
-fn pasar_mapa_a_string(buscaminas: Buscaminas) -> Vec<Vec<char>> {
-    let mut mapa_output = vec![vec!['.'; buscaminas.cant_columnas]; buscaminas.cant_filas];
+
+fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
+    let mut output = String::new();
 
     for fila in 0..buscaminas.cant_filas {
         for columna in 0..buscaminas.cant_columnas{
             if buscaminas.mapa[fila][columna] == 42 {
-                mapa_output[fila][columna] = '*';
+                output.push_str("*");
             }
             else if buscaminas.mapa[fila][columna] != 48 {
-                mapa_output[fila][columna] = (buscaminas.mapa[fila][columna] - 48) as char ;
+                let mut cant_bombas = buscaminas.mapa[fila][columna] as i32 - 48;
+                output.push_str(&*cant_bombas.to_string());
+            }
+            else {
+                output.push_str(".");
             }
         }
+        output.push_str("\n");
     }
-    mapa_output
+    output.remove(output.len()-1);// saco el ultimo \n
+    output
 }
+
 
 pub fn jugar(mut input: String) {
     let cant_filas = cant_filas(input.as_bytes());
@@ -129,17 +134,15 @@ pub fn jugar(mut input: String) {
     buscaminas = crear_mapa_input(input.as_bytes(), buscaminas);
 
     buscaminas = agregar_recuento_de_minas(buscaminas);
-    let output = pasar_mapa_a_string(buscaminas);
+    let mut output = pasar_mapa_a_string(buscaminas);
 
     println!("{:?}", output);
-    /*
-    [[1, 2, 3, 2, 1],
-    [1, 3, 4, 3, 1],
-    [0, 2, 2, 2, 0],
-    [0, 1, 1, 1, 0]]
 
-    1*3*1
-    13*31
-    -2*2-
-    -111-*/
 }
+
+    /*
+    [[1, *, 3, *, 1],
+    [1, 3, *, 3, 1],
+    [., 2, 2, 2, .],
+    [., 1, 1, 1, .]]
+    */
