@@ -1,11 +1,11 @@
 //use std::io;
 
-pub fn dar_bienvenida(){
+pub fn dar_bienvenida() {
     println!("\nBIENVENIDOS AL BUSCAMINAS!!!\n");
     println!("Con el siguiente programa vas a poder etcetc \n");
 }
 
-pub fn mostrar_mapa(mapa: &String){
+pub fn mostrar_mapa(mapa: &String) {
     println!("Leyendo mapa...\n\n{}\n", mapa);
 }
 
