@@ -80,7 +80,7 @@ fn calcular_bombas_adyacentes(
     cant_bombas
 }
 
-fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Vec<Vec<u8>> {
+fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
     println!("{:?}", buscaminas.mapa);
 
     let mut mapa_con_bombas = vec![vec![48; buscaminas.cant_columnas]; buscaminas.cant_filas];
@@ -88,9 +88,10 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Vec<Vec<u8>> {
     for indice_filas in 0..buscaminas.cant_filas {
         for indice_columnas in 0..buscaminas.cant_columnas {
             if buscaminas.mapa[indice_filas][indice_columnas] != 42 {
-                mapa_con_bombas[indice_filas][indice_columnas] =
-                    calcular_bombas_adyacentes(indice_filas, indice_columnas, &buscaminas) as u8
-                        + 48;
+                mapa_con_bombas[indice_filas][indice_columnas] = calcular_bombas_adyacentes(indice_filas, indice_columnas, &buscaminas) as u8 + 48;
+                /*if buscaminas.mapa[indice_filas][indice_columnas] == 48 {
+                    mapa_con_bombas[indice_filas][indice_columnas] = 46;
+                }*/
             } else {
                 mapa_con_bombas[indice_filas][indice_columnas] = 42;
             }
@@ -98,7 +99,24 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Vec<Vec<u8>> {
     }
     println!("{:?}", buscaminas.mapa);
 
-    mapa_con_bombas
+    buscaminas.mapa = mapa_con_bombas;
+    buscaminas
+}
+
+fn pasar_mapa_a_string(buscaminas: Buscaminas) -> Vec<Vec<char>> {
+    let mut mapa_output = vec![vec!['.'; buscaminas.cant_columnas]; buscaminas.cant_filas];
+
+    for fila in 0..buscaminas.cant_filas {
+        for columna in 0..buscaminas.cant_columnas{
+            if buscaminas.mapa[fila][columna] == 42 {
+                mapa_output[fila][columna] = '*';
+            }
+            else if buscaminas.mapa[fila][columna] != 48 {
+                mapa_output[fila][columna] = (buscaminas.mapa[fila][columna] - 48) as char ;
+            }
+        }
+    }
+    mapa_output
 }
 
 pub fn jugar(mut input: String) {
@@ -110,7 +128,9 @@ pub fn jugar(mut input: String) {
     input = quitar_enters(input, buscaminas.cant_filas, buscaminas.cant_columnas);
     buscaminas = crear_mapa_input(input.as_bytes(), buscaminas);
 
-    let output = agregar_recuento_de_minas(buscaminas);
+    buscaminas = agregar_recuento_de_minas(buscaminas);
+    let output = pasar_mapa_a_string(buscaminas);
+
     println!("{:?}", output);
     /*
     [[1, 2, 3, 2, 1],

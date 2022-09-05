@@ -1,0 +1,7 @@
+- tests de integracion?
+- crates externos?
+- bloques unsafe?
+- linter de clippy? (este no tiene que arrojar warnings)
+
+- donde documento las funciones y structs?
+- cada tipo de dato en un archivo fuente separado
