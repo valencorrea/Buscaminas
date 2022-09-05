@@ -14,6 +14,7 @@ mod interaccion_usuario;
 
 use buscaminas::jugar;
 use interaccion_usuario::dar_bienvenida;
+use crate::interaccion_usuario::mostrar_mapa;
 //use interaccion_usuario::mostrar_mapa;
 //use file_reader::read_file_lines;
 
@@ -32,7 +33,9 @@ fn main() {
     // bytes: [46, 42, 46, 42, 46, 10, 46, 46, 42, 46, 46, 10, 46, 46, 42, 46, 46, 10, 46, 46, 46, 46, 46]
 
     dar_bienvenida();
-    jugar(input.as_bytes());// cambiar nombre -> no estamos jugando
+    mostrar_mapa(&input);
+    println!("input en bytes: {:?}", input.as_bytes());
+    jugar(input);// cambiar nombre -> no estamos jugando
 
 
     /*let mut mapa2: [Box<[u8]>; &cant_filas] = [

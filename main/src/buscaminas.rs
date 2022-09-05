@@ -1,3 +1,5 @@
+use std::io::BufRead;
+
 //mover a otro lado el struct y la imple (creo)
 #[derive(Debug)]
 struct Buscaminas {
@@ -31,36 +33,41 @@ fn cant_columnas(cant_bytes_matriz: usize, filas: usize) -> usize {
     (cant_bytes_matriz / filas) - 1
 }
 
-fn crear_mapa_input(input: &[u8], buscaminas: Buscaminas) -> Buscaminas {
+fn quitar_enters(mut input: String, cant_filas: usize, cant_columnas: usize) -> String{
+    for indice in 0..cant_filas{
+        input.remove(cant_columnas*(indice+1));
+    }
+    input
+}
+
+fn crear_mapa_input(input: &[u8], mut buscaminas: Buscaminas) -> Buscaminas {
+    let mut indice_filas = 0;
+    let mut indice_columnas = 0;
+
+    for caracter in input{
+        buscaminas.mapa[indice_filas][indice_columnas] = *caracter;
+        if indice_columnas == buscaminas.cant_columnas -1 {
+            indice_columnas = 0;
+            indice_filas += 1;
+        }
+        else {
+            indice_columnas += 1;
+        }
+    }
     buscaminas
 }
 
-pub fn jugar(input: &[u8]){
-    let cant_filas = cant_filas(input);
+pub fn jugar(mut input: String){
+    println!("input en buscaminas.rs{:?}", input);
+
+    let cant_filas = cant_filas(input.as_bytes());
     let cant_columnas = cant_columnas(input.len(), cant_filas);
 
     let mut buscaminas = Buscaminas::new(cant_filas, cant_columnas);
 
-    buscaminas = crear_mapa_input(input, buscaminas);
+    input = quitar_enters(input, buscaminas.cant_filas, buscaminas.cant_columnas);
+    buscaminas = crear_mapa_input(input.as_bytes(), buscaminas);
+
     //agregar_recuento_de_minas(mapa);
 
-    println!("{:?}", buscaminas);
 }
-/*
-.*.*.\n
-..*..\n
-..*..\n
-.....\n
-*/
-
-/*
-fn cant_columnas(s: &[u8]) -> i32 {
-    let mut cant_columnas = 0;
-    for (indice, &item) in bytes.iter().enumerate() {
-        if item == b'\n' {
-            return
-        }
-    }
-    cant_columnas
-}
-*/
