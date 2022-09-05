@@ -1,4 +1,5 @@
 use std::ops::Add;
+use crate::mostrar_mapa;
 
 #[derive(Debug)]
 struct Buscaminas {
@@ -55,17 +56,32 @@ fn crear_mapa_input(input: &[u8], mut buscaminas: Buscaminas) -> Buscaminas {
     buscaminas
 }
 
+fn calcular_fil_limite_sup(indice_filas: usize) -> usize {
+    if indice_filas == 0 { 0 } else { indice_filas - 1 }
+}
+
+fn calcular_fil_limite_inf(indice_filas: usize, cant_filas: usize) -> usize {
+    if (indice_filas + 2) >= cant_filas { cant_filas } else { indice_filas + 2 }
+}
+
+fn calcular_col_limite_izq(indice_columnas: usize) -> usize {
+    if indice_columnas == 0 { 0 } else { indice_columnas - 1 }
+}
+
+fn calcular_col_limite_der(indice_columnas: usize, cant_columnas: usize) -> usize {
+    if (indice_columnas + 2) >= cant_columnas { cant_columnas } else { indice_columnas + 2 }
+}
+
 fn calcular_bombas_adyacentes(
     indice_filas: usize,
     indice_columnas: usize,
     buscaminas: &Buscaminas,
 ) -> i32 {
-    // llevar todas a difs funciones
     let mut cant_bombas = 0;
-    let mut fil_limite_sup = if indice_filas == 0 { 0 } else { indice_filas - 1 };
-    let mut fil_limite_inf = if (indice_filas + 2) >= buscaminas.cant_filas { buscaminas.cant_filas } else { indice_filas + 2 };
-    let mut col_limite_izq = if indice_columnas == 0 { 0 } else { indice_columnas - 1 };
-    let mut col_limite_der = if (indice_columnas + 2) >= buscaminas.cant_columnas { buscaminas.cant_columnas } else { indice_columnas + 2 };
+    let mut fil_limite_sup = calcular_fil_limite_sup(indice_filas);
+    let mut fil_limite_inf = calcular_fil_limite_inf(indice_filas, buscaminas.cant_filas);
+    let mut col_limite_izq = calcular_col_limite_izq(indice_columnas);
+    let mut col_limite_der = calcular_col_limite_der(indice_columnas, buscaminas.cant_columnas);
 
     for fil in fil_limite_sup..fil_limite_inf {
         for col in col_limite_izq..col_limite_der {
@@ -78,8 +94,6 @@ fn calcular_bombas_adyacentes(
 }
 
 fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
-    println!("{:?}", buscaminas.mapa);
-
     let mut mapa_con_bombas = vec![vec![48; buscaminas.cant_columnas]; buscaminas.cant_filas];
 
     for indice_filas in 0..buscaminas.cant_filas {
@@ -94,8 +108,6 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
             }
         }
     }
-    println!("{:?}", buscaminas.mapa);
-
     buscaminas.mapa = mapa_con_bombas;
     buscaminas
 }
@@ -136,13 +148,12 @@ pub fn jugar(mut input: String) {
     buscaminas = agregar_recuento_de_minas(buscaminas);
     let mut output = pasar_mapa_a_string(buscaminas);
 
-    println!("{:?}", output);
-
+    mostrar_mapa(&output);
+    //guardar_mapa(); -> guardar en archivo
 }
-
     /*
     [[1, *, 3, *, 1],
     [1, 3, *, 3, 1],
-    [., 2, 2, 2, .],
+    [., 2, *, 2, .],
     [., 1, 1, 1, .]]
     */
