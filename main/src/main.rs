@@ -7,7 +7,7 @@ mod buscaminas;
 mod interaccion_usuario;
 
 use crate::interaccion_usuario::mostrar_mapa;
-use buscaminas::jugar;
+use buscaminas::descubrir_bombas;
 use interaccion_usuario::dar_bienvenida;
 
 fn main() {
@@ -20,6 +20,8 @@ fn main() {
 
     dar_bienvenida();
     mostrar_mapa(&input);
-    println!("input en bytes: {:?}", input.as_bytes());
-    jugar(input); // cambiar nombre -> no estamos jugando
+    //renombrar bombas a minas
+    let output = descubrir_bombas(input);
+    mostrar_mapa(&output);
+    fs::write("mapa_output.txt", output).expect("[ERROR] No se pudo escribir el archivo.\n");
 }

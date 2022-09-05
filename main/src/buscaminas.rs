@@ -136,7 +136,7 @@ fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
 }
 
 
-pub fn jugar(mut input: String) {
+pub fn descubrir_bombas(mut input: String) -> String {
     let cant_filas = cant_filas(input.as_bytes());
     let cant_columnas = cant_columnas(input.len(), cant_filas);
 
@@ -148,7 +148,8 @@ pub fn jugar(mut input: String) {
     buscaminas = agregar_recuento_de_minas(buscaminas);
     let mut output = pasar_mapa_a_string(buscaminas);
 
-    mostrar_mapa(&output);
+    output
+    //mostrar_mapa(&output);
     //guardar_mapa(); -> guardar en archivo
 }
     /*
