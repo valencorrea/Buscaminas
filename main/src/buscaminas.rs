@@ -135,7 +135,7 @@ fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
     output
 }
 
-
+//renombrar bombas a minas
 pub fn descubrir_bombas(mut input: String) -> String {
     let cant_filas = cant_filas(input.as_bytes());
     let cant_columnas = cant_columnas(input.len(), cant_filas);
