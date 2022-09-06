@@ -14,17 +14,33 @@ pub fn cant_columnas(cant_bytes_matriz: usize, filas: usize) -> usize {
 }
 
 pub fn calcular_fil_limite_sup(indice_filas: usize) -> usize {
-    if indice_filas == 0 { 0 } else { indice_filas - 1 }
+    if indice_filas == 0 {
+        0
+    } else {
+        indice_filas - 1
+    }
 }
 
 pub fn calcular_fil_limite_inf(indice_filas: usize, cant_filas: usize) -> usize {
-    if (indice_filas + 2) >= cant_filas { cant_filas } else { indice_filas + 2 }
+    if (indice_filas + 2) >= cant_filas {
+        cant_filas
+    } else {
+        indice_filas + 2
+    }
 }
 
 pub fn calcular_col_limite_izq(indice_columnas: usize) -> usize {
-    if indice_columnas == 0 { 0 } else { indice_columnas - 1 }
+    if indice_columnas == 0 {
+        0
+    } else {
+        indice_columnas - 1
+    }
 }
 
 pub fn calcular_col_limite_der(indice_columnas: usize, cant_columnas: usize) -> usize {
-    if (indice_columnas + 2) >= cant_columnas { cant_columnas } else { indice_columnas + 2 }
+    if (indice_columnas + 2) >= cant_columnas {
+        cant_columnas
+    } else {
+        indice_columnas + 2
+    }
 }
