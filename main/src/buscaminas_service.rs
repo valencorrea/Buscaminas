@@ -1,5 +1,11 @@
-use std::ops::Add;
-use crate::mostrar_mapa;
+mod calculadora_service;
+
+use calculadora_service::calcular_fil_limite_inf;
+use calculadora_service::calcular_fil_limite_sup;
+use calculadora_service::calcular_col_limite_izq;
+use calculadora_service::calcular_col_limite_der;
+use calculadora_service::cant_columnas;
+use calculadora_service::cant_filas;
 
 #[derive(Debug)]
 struct Buscaminas {
@@ -16,21 +22,6 @@ impl Buscaminas {
             cant_columnas,
         }
     }
-}
-
-fn cant_filas(bytes: &[u8]) -> usize {
-    let mut cant_filas = 0;
-
-    for caracter in bytes {
-        if *caracter == 10 {
-            cant_filas += 1;
-        }
-    }
-    cant_filas
-}
-
-fn cant_columnas(cant_bytes_matriz: usize, filas: usize) -> usize {
-    (cant_bytes_matriz / filas) - 1
 }
 
 fn quitar_enters(mut input: String, cant_filas: usize, cant_columnas: usize) -> String {
@@ -56,32 +47,16 @@ fn crear_mapa_input(input: &[u8], mut buscaminas: Buscaminas) -> Buscaminas {
     buscaminas
 }
 
-fn calcular_fil_limite_sup(indice_filas: usize) -> usize {
-    if indice_filas == 0 { 0 } else { indice_filas - 1 }
-}
-
-fn calcular_fil_limite_inf(indice_filas: usize, cant_filas: usize) -> usize {
-    if (indice_filas + 2) >= cant_filas { cant_filas } else { indice_filas + 2 }
-}
-
-fn calcular_col_limite_izq(indice_columnas: usize) -> usize {
-    if indice_columnas == 0 { 0 } else { indice_columnas - 1 }
-}
-
-fn calcular_col_limite_der(indice_columnas: usize, cant_columnas: usize) -> usize {
-    if (indice_columnas + 2) >= cant_columnas { cant_columnas } else { indice_columnas + 2 }
-}
-
 fn calcular_bombas_adyacentes(
     indice_filas: usize,
     indice_columnas: usize,
     buscaminas: &Buscaminas,
 ) -> i32 {
     let mut cant_bombas = 0;
-    let mut fil_limite_sup = calcular_fil_limite_sup(indice_filas);
-    let mut fil_limite_inf = calcular_fil_limite_inf(indice_filas, buscaminas.cant_filas);
-    let mut col_limite_izq = calcular_col_limite_izq(indice_columnas);
-    let mut col_limite_der = calcular_col_limite_der(indice_columnas, buscaminas.cant_columnas);
+    let fil_limite_sup = calcular_fil_limite_sup(indice_filas);
+    let fil_limite_inf = calcular_fil_limite_inf(indice_filas, buscaminas.cant_filas);
+    let col_limite_izq = calcular_col_limite_izq(indice_columnas);
+    let col_limite_der = calcular_col_limite_der(indice_columnas, buscaminas.cant_columnas);
 
     for fil in fil_limite_sup..fil_limite_inf {
         for col in col_limite_izq..col_limite_der {
@@ -100,9 +75,6 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
         for indice_columnas in 0..buscaminas.cant_columnas {
             if buscaminas.mapa[indice_filas][indice_columnas] != 42 {
                 mapa_con_bombas[indice_filas][indice_columnas] = calcular_bombas_adyacentes(indice_filas, indice_columnas, &buscaminas) as u8 + 48;
-                /*if buscaminas.mapa[indice_filas][indice_columnas] == 48 {
-                    mapa_con_bombas[indice_filas][indice_columnas] = 46;
-                }*/
             } else {
                 mapa_con_bombas[indice_filas][indice_columnas] = 42;
             }
@@ -122,7 +94,7 @@ fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
                 output.push_str("*");
             }
             else if buscaminas.mapa[fila][columna] != 48 {
-                let mut cant_bombas = buscaminas.mapa[fila][columna] as i32 - 48;
+                let cant_bombas = buscaminas.mapa[fila][columna] as i32 - 48;
                 output.push_str(&*cant_bombas.to_string());
             }
             else {
@@ -146,15 +118,5 @@ pub fn descubrir_bombas(mut input: String) -> String {
     buscaminas = crear_mapa_input(input.as_bytes(), buscaminas);
 
     buscaminas = agregar_recuento_de_minas(buscaminas);
-    let mut output = pasar_mapa_a_string(buscaminas);
-
-    output
-    //mostrar_mapa(&output);
-    //guardar_mapa(); -> guardar en archivo
+    pasar_mapa_a_string(buscaminas)
 }
-    /*
-    [[1, *, 3, *, 1],
-    [1, 3, *, 3, 1],
-    [., 2, *, 2, .],
-    [., 1, 1, 1, .]]
-    */

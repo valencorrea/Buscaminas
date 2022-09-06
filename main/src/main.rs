@@ -1,13 +1,13 @@
 use std::env;
-mod buscaminas;
+mod buscaminas_service;
 mod interaccion_usuario;
-mod service_archivos;
+pub mod archivos_service;
 
 use interaccion_usuario::mostrar_mapa;
-use buscaminas::descubrir_bombas;
 use interaccion_usuario::dar_bienvenida;
-use service_archivos::leer_archivo;
-use service_archivos::escribir_archivo;
+use buscaminas_service::descubrir_bombas;
+use archivos_service::leer_archivo;
+use archivos_service::escribir_archivo;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
