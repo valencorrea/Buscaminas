@@ -11,6 +11,7 @@ const SIN_BOMBAS_STRING : &str = ".";
 const ENTER_STRING : &str = "\n";
 const BOMBA_U8 : u8 = 42;
 const NUM_CERO_U8 : u8 = 48;
+const SIN_BOMBA_U8 : u8 = 46;
 
 #[derive(Debug)] // ver si lo necesito
 struct Buscaminas {
@@ -103,7 +104,7 @@ fn calcular_minas_adyacentes(
     cant_minas
 }
 
-fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
+fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String { // devuelve con los \n para que desp se pueda imprimir y guardar ok
     let mut output = String::new();
     for fila in 0..buscaminas.cant_filas {
         for columna in 0..buscaminas.cant_columnas{
@@ -121,4 +122,59 @@ fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
         output.push_str(ENTER_STRING);
     }
     output
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn paso_mapa_de_u8_a_string_ok(){
+        let mut buscaminas_u8 = Buscaminas::new(2, 2);
+        buscaminas_u8.mapa = vec![vec![BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
+        assert_eq!(pasar_mapa_a_string(buscaminas_u8), "**\n**\n");
+    }
+
+    #[test]
+    fn calculo_minas_adyacentes_a_posicion_central(){
+        let mut buscaminas_u8 = Buscaminas::new(3, 3);
+        buscaminas_u8.mapa = vec![vec![SIN_BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
+        buscaminas_u8.mapa[0][0] = BOMBA_U8;
+        buscaminas_u8.mapa[0][1] = BOMBA_U8;
+        buscaminas_u8.mapa[1][2] = BOMBA_U8;
+        assert_eq!(calcular_minas_adyacentes(1, 1, &buscaminas_u8), 3);
+    }
+
+    #[test]
+    fn calculo_minas_adyacentes_a_posicion_en_esquina(){
+        let mut buscaminas_u8 = Buscaminas::new(3, 3);
+        buscaminas_u8.mapa = vec![vec![SIN_BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
+        buscaminas_u8.mapa[0][0] = BOMBA_U8; // No es adyacente
+        buscaminas_u8.mapa[1][1] = BOMBA_U8;
+        buscaminas_u8.mapa[1][2] = BOMBA_U8;
+        assert_eq!(calcular_minas_adyacentes(2, 2, &buscaminas_u8), 2);
+    }
+
+
+    #[test]
+    fn agrego_recuento_de_bombas_matriz_2x3_2_bombas(){
+        let mut buscaminas_sin_minas = Buscaminas::new(2, 3);
+        buscaminas_sin_minas.mapa = vec![vec![SIN_BOMBA_U8; buscaminas_sin_minas.cant_columnas]; buscaminas_sin_minas.cant_filas];
+        buscaminas_sin_minas.mapa[0][0] = BOMBA_U8;
+        buscaminas_sin_minas.mapa[1][2] = BOMBA_U8;
+
+        let mut buscaminas_con_minas = Buscaminas::new(2, 3);
+        buscaminas_con_minas.mapa = vec![vec![NUM_CERO_U8; buscaminas_sin_minas.cant_columnas]; buscaminas_sin_minas.cant_filas];
+        buscaminas_con_minas.mapa[0][0] = BOMBA_U8;
+        buscaminas_con_minas.mapa[0][1] = NUM_CERO_U8 + 2;
+        buscaminas_con_minas.mapa[0][2] = NUM_CERO_U8 + 1;
+        buscaminas_con_minas.mapa[1][0] = NUM_CERO_U8 + 1;
+        buscaminas_con_minas.mapa[1][1] = NUM_CERO_U8 + 2;
+        buscaminas_con_minas.mapa[1][2] = BOMBA_U8;
+
+        // Se puede chequear corriendo corriendo "otro_mapa_input.txt" ya que inclui este caso ahi.
+        assert_eq!(agregar_recuento_de_minas(buscaminas_sin_minas).mapa, buscaminas_con_minas.mapa);
+    }
+
 }

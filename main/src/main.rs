@@ -19,5 +19,5 @@ fn main() {
     let output = descubrir_minas(input);
 
     mostrar_mapa(&output, "output");
-    escribir_archivo("mapas/mapa_output.txt", output);
+    escribir_archivo("mapas/mapa_output.txt", output); // agregar que se guarde con el mismo nombre
 }
