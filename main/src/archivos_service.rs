@@ -1,9 +1,19 @@
 //! Modulo que se centra en las funcionalidades referentes a la interacción
 //! con los archivos.
-use std::{fs, io};
+use std::error::Error;
+use std::fmt::{Debug, Display, Formatter};
+use std::fs;
 use std::fs::File;
 use std::io::Read;
 use std::ops::Add;
+
+//#[derive(Debug)]
+pub enum ErrorArchivo {
+    ErrorLectura,
+    ErrorEscritura,
+}
+
+//impl Error for ErrorArchivo {}
 
 /// Funcion que recibe una ruta donde se encuentra el archivo con el mapa input, y
 /// retorna el mapa leido en formato de String.
@@ -18,12 +28,12 @@ use std::ops::Add;
 /// .*.
 /// ...
 /// ```
-pub fn leer_archivo(path: &str) -> Result<String, io::Error> {
+pub fn leer_archivo(path: &str) -> Result<String, ErrorArchivo> {
     let f = File::open(path);
 
     let mut f = match f {
         Ok(archivo) => archivo,
-        Err(error) => panic!("Opening file failed: {:?}", error),
+        Err(_) => return Err(ErrorArchivo::ErrorLectura),
     };
 
     let mut leer_archivo = String::new();
@@ -32,7 +42,7 @@ pub fn leer_archivo(path: &str) -> Result<String, io::Error> {
             leer_archivo = leer_archivo.add("\n");
             Ok(leer_archivo)
         },
-        Err(e) => Err(e),
+        Err(_) => return Err(ErrorArchivo::ErrorLectura),
     }
 }
 

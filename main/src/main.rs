@@ -40,19 +40,24 @@ use buscaminas_service::descubrir_minas;
 use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
 
+#[derive(Debug)]
+pub enum ResultadoBuscaminas {
+    BuscaminasError,
+}
+
 /// Funcion principal que controla el flujo del programa relacionandose con
 /// diferentes modulos.
 /// Recibe por parametros la ruta del archivo contenedor del mapa.
 /// Escribe en un nuevo archivo su resolución.
 /// Se asume que el contenido del archivo llega en el formato correcto
-fn main() {
+fn main() -> Result<(), ResultadoBuscaminas> {
     let args: Vec<String> = env::args().collect();
 
     let input = match leer_archivo(&args[1]){
-        Ok(mapa_input) => {
-            mapa_input
+        Ok(resultado_lectura) => {
+            resultado_lectura
         }
-        Err(error) => error.to_string()
+        Err(_) => return Err(ResultadoBuscaminas::BuscaminasError)
     };
 
     dar_bienvenida();
@@ -61,16 +66,6 @@ fn main() {
 
     mostrar_mapa(&output, "output");
     escribir_archivo("mapas/mapa_output.txt", output);
+    return Ok(())
     // agregar que se guarde con el mismo nombre
 }
-/*
-let json = match JsonHandler::new_from_file(JSON) {
-Ok(json_file) => {
-info!("Json abierto y leido exitosamente");
-json_file
-}
-Err(_) => {
-info!("Json creado exitosamente");
-JsonHandler::new(number_of_torrents)
-}
-};*/
