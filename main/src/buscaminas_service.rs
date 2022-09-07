@@ -1,3 +1,7 @@
+//! Service principal, ya que es el que contiene la logica mas importante del
+//! buscaminas. Se encuentra modularizado en las distintas funcionalidades requeridas para
+//! lograr develar las minas.
+
 use crate::calculadora_service::calcular_col_limite_der;
 use crate::calculadora_service::calcular_col_limite_izq;
 use crate::calculadora_service::calcular_fil_limite_inf;
@@ -12,13 +16,14 @@ const ENTER_STRING: &str = "\n";
 const BOMBA_U8: u8 = 42;
 const NUM_CERO_U8: u8 = 48;
 
-#[derive(Debug)] // ver si lo necesito
+#[derive(Debug)]
 struct Buscaminas {
     mapa: Vec<Vec<u8>>,
     cant_filas: usize,
     cant_columnas: usize,
 }
 
+/// Constructor del Buscaminas. Recibe los atributos necesarios para crearlo.
 impl Buscaminas {
     pub fn new(cant_filas: usize, cant_columnas: usize) -> Self {
         Buscaminas {
@@ -29,6 +34,19 @@ impl Buscaminas {
     }
 }
 
+/// Función principal. Dentro se encuentran modularizados los distintos llamados
+/// segun las funcionalidades requeridas para completar el descubrimiento de minas.
+/// Recibe el mapa input y retorna el mapa con el conteo de las minas adyacentes, ambos
+/// en formato String.
+///
+/// *Ejemplo de input:*
+/// ```
+/// "..*\n...\n*..\n"
+/// ```
+/// *Ejemplo de output:*
+/// ```
+/// ".1*\n121\n*1.\n"
+/// ```
 pub fn descubrir_minas(mut input: String) -> String {
     let cant_filas = cant_filas(input.as_bytes());
     let cant_columnas = cant_columnas(input.len(), cant_filas);
@@ -41,6 +59,7 @@ pub fn descubrir_minas(mut input: String) -> String {
     pasar_mapa_a_string(buscaminas)
 }
 
+/// Funcion que suprime los enters de un string y lo retorna.
 fn quitar_enters(mut input: String, cant_filas: usize, cant_columnas: usize) -> String {
     for indice in 0..cant_filas {
         input.remove(cant_columnas * (indice + 1));
