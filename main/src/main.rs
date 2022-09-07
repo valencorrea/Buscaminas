@@ -47,7 +47,13 @@ use interaccion_usuario::mostrar_mapa;
 /// Se asume que el contenido del archivo llega en el formato correcto
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let input = leer_archivo(&args[1]);
+
+    let input = match leer_archivo(&args[1]){
+        Ok(mapa_input) => {
+            mapa_input
+        }
+        Err(error) => error.to_string()
+    };
 
     dar_bienvenida();
     mostrar_mapa(&input, "input");
@@ -57,3 +63,14 @@ fn main() {
     escribir_archivo("mapas/mapa_output.txt", output);
     // agregar que se guarde con el mismo nombre
 }
+/*
+let json = match JsonHandler::new_from_file(JSON) {
+Ok(json_file) => {
+info!("Json abierto y leido exitosamente");
+json_file
+}
+Err(_) => {
+info!("Json creado exitosamente");
+JsonHandler::new(number_of_torrents)
+}
+};*/

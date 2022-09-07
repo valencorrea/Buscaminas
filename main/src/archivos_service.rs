@@ -1,10 +1,10 @@
 //! Modulo que se centra en las funcionalidades referentes a la interacción
 //! con los archivos.
-//use std::io::Error;
-use std::fs;
+use std::{fs, io};
+use std::fs::File;
+use std::io::Read;
 use std::ops::Add;
 
-//devuelven un result -> manejarlo
 /// Funcion que recibe una ruta donde se encuentra el archivo con el mapa input, y
 /// retorna el mapa leido en formato de String.
 ///
@@ -18,18 +18,24 @@ use std::ops::Add;
 /// .*.
 /// ...
 /// ```
-pub fn leer_archivo(path: &str) -> String {
-    /*let mut input = fs::read_to_string(path);// explicar en informe
-    match input {
-        Ok(i) => i,
-        Err(mensaje_error) => return Err(mensaje_error),
+pub fn leer_archivo(path: &str) -> Result<String, io::Error> {
+    let f = File::open(path);
+
+    let mut f = match f {
+        Ok(archivo) => archivo,
+        Err(error) => panic!("Opening file failed: {:?}", error),
     };
-    //input = input.add("\n"); // para que la cantidad de \n sea igual a la de filas -> detallar en el informe
-    Ok(input)*/
-    let mut input = fs::read_to_string(path).expect("[ERROR] No se pudo leer el archivo.\n"); // explicar en informe
-    input = input.add("\n"); // para que la cantidad de \n sea igual a la de filas -> detallar en el informe
-    input
+
+    let mut leer_archivo = String::new();
+    match f.read_to_string(&mut leer_archivo) {
+        Ok(_) => {
+            leer_archivo = leer_archivo.add("\n");
+            Ok(leer_archivo)
+        },
+        Err(e) => Err(e),
+    }
 }
+
 
 /// Función que recibe una ruta en donde se guardara el archivo con el respectivo
 /// recuento de minas, y el contenido a escribir en formato de String.
