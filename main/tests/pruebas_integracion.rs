@@ -1,4 +1,4 @@
-use crate::buscaminas_service;
+use crate::main;
 
     #[test] // <- no la corre
     fn descubrir_minas_input_3x3_1_mina() {

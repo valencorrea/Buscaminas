@@ -1,8 +1,16 @@
+//use std::io::Error;
 use std::fs;
 use std::ops::Add;
 
 //devuelven un result -> manejarlo
 pub fn leer_archivo(path: &str) -> String {
+    /*let mut input = fs::read_to_string(path);// explicar en informe
+    match input {
+        Ok(i) => i,
+        Err(mensaje_error) => return Err(mensaje_error),
+    };
+    //input = input.add("\n"); // para que la cantidad de \n sea igual a la de filas -> detallar en el informe
+    Ok(input)*/
     let mut input = fs::read_to_string(path).expect("[ERROR] No se pudo leer el archivo.\n");// explicar en informe
     input = input.add("\n"); // para que la cantidad de \n sea igual a la de filas -> detallar en el informe
     input

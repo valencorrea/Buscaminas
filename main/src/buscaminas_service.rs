@@ -11,7 +11,6 @@ const SIN_BOMBAS_STRING : &str = ".";
 const ENTER_STRING : &str = "\n";
 const BOMBA_U8 : u8 = 42;
 const NUM_CERO_U8 : u8 = 48;
-const SIN_BOMBA_U8 : u8 = 46;
 
 #[derive(Debug)] // ver si lo necesito
 struct Buscaminas {
@@ -128,6 +127,8 @@ fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String { // devuelve con los \
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    const SIN_BOMBA_U8 : u8 = 46;
 
     #[test]
     fn paso_mapa_de_u8_a_string_ok(){
