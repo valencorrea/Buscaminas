@@ -1,16 +1,16 @@
-use std::string::ToString;
 use crate::calculadora_service::calcular_col_limite_der;
 use crate::calculadora_service::calcular_col_limite_izq;
 use crate::calculadora_service::calcular_fil_limite_inf;
 use crate::calculadora_service::calcular_fil_limite_sup;
 use crate::calculadora_service::cant_columnas;
 use crate::calculadora_service::cant_filas;
+use std::string::ToString;
 
-const BOMBA_STRING : &str = "*";
-const SIN_BOMBAS_STRING : &str = ".";
-const ENTER_STRING : &str = "\n";
-const BOMBA_U8 : u8 = 42;
-const NUM_CERO_U8 : u8 = 48;
+const BOMBA_STRING: &str = "*";
+const SIN_BOMBAS_STRING: &str = ".";
+const ENTER_STRING: &str = "\n";
+const BOMBA_U8: u8 = 42;
+const NUM_CERO_U8: u8 = 48;
 
 #[derive(Debug)] // ver si lo necesito
 struct Buscaminas {
@@ -65,8 +65,10 @@ fn crear_mapa_input(input: &[u8], mut buscaminas: Buscaminas) -> Buscaminas {
 }
 
 fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
-    let mut mapa_con_minas = vec![vec![NUM_CERO_U8; buscaminas.cant_columnas]; buscaminas.cant_filas];
+    let mut mapa_con_minas =
+        vec![vec![NUM_CERO_U8; buscaminas.cant_columnas]; buscaminas.cant_filas];
 
+    // https://rust-lang.github.io/rust-clippy/master/index.html#needless_range_loop (clippy)
     for indice_filas in 0..buscaminas.cant_filas {
         for indice_columnas in 0..buscaminas.cant_columnas {
             if buscaminas.mapa[indice_filas][indice_columnas] != BOMBA_U8 {
@@ -103,18 +105,17 @@ fn calcular_minas_adyacentes(
     cant_minas
 }
 
-fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String { // devuelve con los \n para que desp se pueda imprimir y guardar ok
+fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
+    // devuelve con los \n para que desp se pueda imprimir y guardar ok
     let mut output = String::new();
     for fila in 0..buscaminas.cant_filas {
-        for columna in 0..buscaminas.cant_columnas{
+        for columna in 0..buscaminas.cant_columnas {
             if buscaminas.mapa[fila][columna] == BOMBA_U8 {
                 output.push_str(BOMBA_STRING);
-            }
-            else if buscaminas.mapa[fila][columna] != NUM_CERO_U8 {
+            } else if buscaminas.mapa[fila][columna] != NUM_CERO_U8 {
                 let cant_bombas = buscaminas.mapa[fila][columna] as i32 - NUM_CERO_U8 as i32;
                 output.push_str(&*cant_bombas.to_string());
-            }
-            else {
+            } else {
                 output.push_str(SIN_BOMBAS_STRING);
             }
         }
@@ -123,24 +124,25 @@ fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String { // devuelve con los \
     output
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    const SIN_BOMBA_U8 : u8 = 46;
+    const SIN_BOMBA_U8: u8 = 46;
 
     #[test]
-    fn paso_mapa_de_u8_a_string_ok(){
+    fn paso_mapa_de_u8_a_string_ok() {
         let mut buscaminas_u8 = Buscaminas::new(2, 2);
-        buscaminas_u8.mapa = vec![vec![BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
+        buscaminas_u8.mapa =
+            vec![vec![BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
         assert_eq!(pasar_mapa_a_string(buscaminas_u8), "**\n**\n");
     }
 
     #[test]
-    fn calculo_minas_adyacentes_a_posicion_central(){
+    fn calculo_minas_adyacentes_a_posicion_central() {
         let mut buscaminas_u8 = Buscaminas::new(3, 3);
-        buscaminas_u8.mapa = vec![vec![SIN_BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
+        buscaminas_u8.mapa =
+            vec![vec![SIN_BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
         buscaminas_u8.mapa[0][0] = BOMBA_U8;
         buscaminas_u8.mapa[0][1] = BOMBA_U8;
         buscaminas_u8.mapa[1][2] = BOMBA_U8;
@@ -148,25 +150,31 @@ mod tests {
     }
 
     #[test]
-    fn calculo_minas_adyacentes_a_posicion_en_esquina(){
+    fn calculo_minas_adyacentes_a_posicion_en_esquina() {
         let mut buscaminas_u8 = Buscaminas::new(3, 3);
-        buscaminas_u8.mapa = vec![vec![SIN_BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
+        buscaminas_u8.mapa =
+            vec![vec![SIN_BOMBA_U8; buscaminas_u8.cant_columnas]; buscaminas_u8.cant_filas];
         buscaminas_u8.mapa[0][0] = BOMBA_U8; // No es adyacente
         buscaminas_u8.mapa[1][1] = BOMBA_U8;
         buscaminas_u8.mapa[1][2] = BOMBA_U8;
         assert_eq!(calcular_minas_adyacentes(2, 2, &buscaminas_u8), 2);
     }
 
-
     #[test]
-    fn agrego_recuento_de_bombas_matriz_2x3_2_bombas(){
+    fn agrego_recuento_de_bombas_matriz_2x3_2_bombas() {
         let mut buscaminas_sin_minas = Buscaminas::new(2, 3);
-        buscaminas_sin_minas.mapa = vec![vec![SIN_BOMBA_U8; buscaminas_sin_minas.cant_columnas]; buscaminas_sin_minas.cant_filas];
+        buscaminas_sin_minas.mapa = vec![
+            vec![SIN_BOMBA_U8; buscaminas_sin_minas.cant_columnas];
+            buscaminas_sin_minas.cant_filas
+        ];
         buscaminas_sin_minas.mapa[0][0] = BOMBA_U8;
         buscaminas_sin_minas.mapa[1][2] = BOMBA_U8;
 
         let mut buscaminas_con_minas = Buscaminas::new(2, 3);
-        buscaminas_con_minas.mapa = vec![vec![NUM_CERO_U8; buscaminas_sin_minas.cant_columnas]; buscaminas_sin_minas.cant_filas];
+        buscaminas_con_minas.mapa = vec![
+            vec![NUM_CERO_U8; buscaminas_sin_minas.cant_columnas];
+            buscaminas_sin_minas.cant_filas
+        ];
         buscaminas_con_minas.mapa[0][0] = BOMBA_U8;
         buscaminas_con_minas.mapa[0][1] = NUM_CERO_U8 + 2;
         buscaminas_con_minas.mapa[0][2] = NUM_CERO_U8 + 1;
@@ -175,7 +183,9 @@ mod tests {
         buscaminas_con_minas.mapa[1][2] = BOMBA_U8;
 
         // Se puede chequear corriendo corriendo "otro_mapa_input.txt" ya que inclui este caso ahi.
-        assert_eq!(agregar_recuento_de_minas(buscaminas_sin_minas).mapa, buscaminas_con_minas.mapa);
+        assert_eq!(
+            agregar_recuento_de_minas(buscaminas_sin_minas).mapa,
+            buscaminas_con_minas.mapa
+        );
     }
-
 }
