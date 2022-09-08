@@ -1,5 +1,3 @@
-//use crate::main::src::buscaminas_service;
-
 #[path = "../src/buscaminas_service.rs"]
 mod buscaminas_service;
 
@@ -7,8 +5,9 @@ mod buscaminas_service;
 mod calculadora_service;
 
 
-#[test] // <- no la corre
+#[test]
 fn descubrir_minas_input_3x3_1_mina() {
+    // Se puede verificar corriendo el mapa mapa_input_test_integracion
     let string_input = String::from("...\n...\n..*\n");
     let string_output = String::from("...\n.11\n.1*\n");
     assert_eq!(
