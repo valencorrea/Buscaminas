@@ -65,7 +65,16 @@ fn main() -> Result<(), ResultadoBuscaminas> {
     let output = descubrir_minas(input);
 
     mostrar_mapa(&output, "output");
-    escribir_archivo("mapas/mapa_output.txt", output);
+
+    match escribir_archivo("mapas/mapa_output.txt", output){
+        Ok(resultado_escritura) => {
+            resultado_escritura
+        }
+        Err(_) => {
+            return Err(ResultadoBuscaminas::BuscaminasError)
+        }
+    };
+
     return Ok(())
     // agregar que se guarde con el mismo nombre
 }

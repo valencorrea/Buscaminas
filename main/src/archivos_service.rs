@@ -8,6 +8,7 @@ use std::io::Read;
 use std::ops::Add;
 
 //#[derive(Debug)]
+//https://www.lpalmieri.com/posts/error-handling-rust/
 pub enum ErrorArchivo {
     ErrorLectura,
     ErrorEscritura,
@@ -60,7 +61,7 @@ pub fn leer_archivo(path: &str) -> Result<String, ErrorArchivo> {
 /// ...  ->  121
 /// *..      *1.
 /// ```
-pub fn escribir_archivo(path: &str, mut output: String) {
+pub fn escribir_archivo(path: &str, mut output: String) -> Result<(), ErrorArchivo> {
     output.remove(output.len() - 1);
-    fs::write(path, output).expect("[ERROR] No se pudo escribir el archivo.\n");
+    fs::write(path, output).map_err(|error| ErrorArchivo::ErrorEscritura)
 }
