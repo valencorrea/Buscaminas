@@ -1,7 +1,7 @@
 //! Modulo que se centra en las funcionalidades referentes a la interacción
 //! con los archivos.
-use std::error::Error;
-use std::fmt::{Debug, Display, Formatter};
+//use std::error::Error;
+//use std::fmt::{Debug, Display, Formatter};
 use std::fs;
 use std::fs::File;
 use std::io::Read;
@@ -10,8 +10,8 @@ use std::ops::Add;
 //#[derive(Debug)]
 //https://www.lpalmieri.com/posts/error-handling-rust/
 pub enum ErrorArchivo {
-    ErrorLectura,
-    ErrorEscritura,
+    ErrorLectura(String),
+    ErrorEscritura(String),
 }
 
 //impl Error for ErrorArchivo {}
@@ -34,7 +34,7 @@ pub fn leer_archivo(path: &str) -> Result<String, ErrorArchivo> {
 
     let mut f = match f {
         Ok(archivo) => archivo,
-        Err(_) => return Err(ErrorArchivo::ErrorLectura),
+        Err(error) => return Err(ErrorArchivo::ErrorLectura(error.to_string())),
     };
 
     let mut leer_archivo = String::new();
@@ -43,7 +43,7 @@ pub fn leer_archivo(path: &str) -> Result<String, ErrorArchivo> {
             leer_archivo = leer_archivo.add("\n");
             Ok(leer_archivo)
         },
-        Err(_) => return Err(ErrorArchivo::ErrorLectura),
+        Err(error) => Err(ErrorArchivo::ErrorLectura(error.to_string())),
     }
 }
 
@@ -63,5 +63,5 @@ pub fn leer_archivo(path: &str) -> Result<String, ErrorArchivo> {
 /// ```
 pub fn escribir_archivo(path: &str, mut output: String) -> Result<(), ErrorArchivo> {
     output.remove(output.len() - 1);
-    fs::write(path, output).map_err(|error| ErrorArchivo::ErrorEscritura)
+    fs::write(path, output).map_err(|error| ErrorArchivo::ErrorEscritura(error.to_string()))
 }

@@ -27,8 +27,11 @@
 //! - *cargo test*
 //! - *cargo fmt*
 //! - *cargo clippy*
+//! - *cargo test*
 
 use std::env;
+use std::process::exit;
+
 mod archivos_service;
 mod buscaminas_service;
 mod calculadora_service;
@@ -39,10 +42,12 @@ use archivos_service::leer_archivo;
 use buscaminas_service::descubrir_minas;
 use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
+use crate::ResultadoBuscaminas::{BuscaminasError, BuscaminasExito};
 
 #[derive(Debug)]
 pub enum ResultadoBuscaminas {
     BuscaminasError,
+    BuscaminasExito,
 }
 
 /// Funcion principal que controla el flujo del programa relacionandose con
@@ -50,14 +55,14 @@ pub enum ResultadoBuscaminas {
 /// Recibe por parametros la ruta del archivo contenedor del mapa.
 /// Escribe en un nuevo archivo su resolución.
 /// Se asume que el contenido del archivo llega en el formato correcto
-fn main() -> Result<(), ResultadoBuscaminas> {
+fn main() {
     let args: Vec<String> = env::args().collect();
 
     let input = match leer_archivo(&args[1]){
         Ok(resultado_lectura) => {
             resultado_lectura
         }
-        Err(_) => return Err(ResultadoBuscaminas::BuscaminasError)
+        Err(_) => exit(-1) // buscar un similar porque no libera memoria
     };
 
     dar_bienvenida();
@@ -71,10 +76,9 @@ fn main() -> Result<(), ResultadoBuscaminas> {
             resultado_escritura
         }
         Err(_) => {
-            return Err(ResultadoBuscaminas::BuscaminasError)
+            exit(-1)
         }
     };
-
-    return Ok(())
-    // agregar que se guarde con el mismo nombre
+    exit(0)
+    // agregar que se guard con el mismo nombre
 }
