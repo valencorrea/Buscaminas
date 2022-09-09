@@ -87,9 +87,11 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
     let mut mapa_con_minas =
         vec![vec![NUM_CERO_U8; buscaminas.cant_columnas]; buscaminas.cant_filas];
 
-    // https://rust-lang.github.io/rust-clippy/master/index.html#needless_range_loop (clippy)
-    for indice_filas in 0..buscaminas.cant_filas {
-        for indice_columnas in 0..buscaminas.cant_columnas {
+    let mut indice_filas = 0;
+    let mut indice_columnas = 0;
+
+    while indice_filas < buscaminas.cant_filas {
+        while indice_columnas < buscaminas.cant_columnas {
             if buscaminas.mapa[indice_filas][indice_columnas] != BOMBA_U8 {
                 mapa_con_minas[indice_filas][indice_columnas] =
                     calcular_minas_adyacentes(indice_filas, indice_columnas, &buscaminas) as u8
@@ -97,8 +99,12 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
             } else {
                 mapa_con_minas[indice_filas][indice_columnas] = BOMBA_U8;
             }
+            indice_columnas += 1;
         }
+        indice_filas += 1;
+        indice_columnas = 0;
     }
+
     buscaminas.mapa = mapa_con_minas;
     buscaminas
 }

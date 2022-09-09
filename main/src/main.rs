@@ -21,13 +21,12 @@
 //! En particular, los archivos de entrada estan dentro de */main/src/mapas*, ruta en
 //! donde tambien se guardara el archivo de salida.
 //!
-//! *Ejemplo: cargo run mapa_input.txt*
+//! *Ejemplo: cargo run mapas/mapa_input.txt*
 //!
 //! Otros comandos de interes:
 //! - *cargo test*
 //! - *cargo fmt*
 //! - *cargo clippy*
-//! - *cargo test*
 
 use std::env;
 use std::process::exit;
@@ -42,13 +41,6 @@ use archivos_service::leer_archivo;
 use buscaminas_service::descubrir_minas;
 use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
-use crate::ResultadoBuscaminas::{BuscaminasError, BuscaminasExito};
-
-#[derive(Debug)]
-pub enum ResultadoBuscaminas {
-    BuscaminasError,
-    BuscaminasExito,
-}
 
 /// Funcion principal que controla el flujo del programa relacionandose con
 /// diferentes modulos.
