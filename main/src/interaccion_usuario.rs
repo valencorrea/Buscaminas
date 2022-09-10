@@ -6,7 +6,8 @@ pub fn dar_bienvenida() {
     println!("\nBIENVENIDOS AL BUSCAMINAS!!!\n");
     println!(
         "Con el siguiente programa vas a poder conocer las ubicaciones de las minas \
-    del mapa.\n");
+    del mapa.\n"
+    );
 }
 
 /// Funcion que se encarga de recibir un mapa y mostrarlo por pantalla.

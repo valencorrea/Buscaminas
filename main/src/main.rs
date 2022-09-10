@@ -29,34 +29,37 @@
 //! - *cargo clippy*
 
 use std::env;
-use std::process::exit;
+use std::process::ExitCode;
 
 mod archivos_service;
 mod buscaminas_service;
 mod calculadora_service;
 mod interaccion_usuario;
 
+use archivos_service::tiene_caracteres_validos;
 use archivos_service::escribir_archivo;
 use archivos_service::leer_archivo;
 use buscaminas_service::descubrir_minas;
 use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
-use crate::archivos_service::es_archivo_valido;
+
+pub const ERROR: &str = "ERROR";
 
 /// Funcion principal que controla el flujo del programa relacionandose con
 /// diferentes modulos.
 /// Recibe por parametros la ruta del archivo contenedor del mapa.
 /// Escribe en un nuevo archivo su resolución.
 /// Se asume que el contenido del archivo llega en el formato correcto
-fn main() {
+fn main() -> ExitCode {
     let args: Vec<String> = env::args().collect();
 
     let input = match leer_archivo(&args[1]) {
         Ok(resultado_lectura) => resultado_lectura,
-        Err(_) => exit(-1), // buscar un similar porque no libera memoria
+        Err(_) => String::from(ERROR),
     };
-
-    if !es_archivo_valido(&input) { exit(-1)};
+    if input.eq(&ERROR) || !tiene_caracteres_validos(&input) {
+        return ExitCode::FAILURE;
+    };
 
     dar_bienvenida();
     mostrar_mapa(&input, "input");
@@ -65,8 +68,7 @@ fn main() {
 
     match escribir_archivo("mapas/mapa_output.txt", output) {
         Ok(resultado_escritura) => resultado_escritura,
-        Err(_) => exit(-1),
-    };
-    exit(0)
-    // agregar que se guard con el mismo nombre
+        Err(_) => return ExitCode::FAILURE,
+    }
+    ExitCode::SUCCESS
 }

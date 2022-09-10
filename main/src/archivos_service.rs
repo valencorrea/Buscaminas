@@ -1,7 +1,5 @@
 //! Modulo que se centra en las funcionalidades referentes a la interacción
 //! con los archivos.
-//use std::error::Error;
-//use std::fmt::{Debug, Display, Formatter};
 use std::fs;
 use std::fs::File;
 use std::io::Read;
@@ -10,14 +8,10 @@ use std::ops::Add;
 pub const BOMBA_U8: u8 = 42;
 pub const PUNTO_U8: u8 = 46;
 
-//#[derive(Debug)]
-//https://www.lpalmieri.com/posts/error-handling-rust/
 pub enum ErrorArchivo {
     ErrorLectura(String),
     ErrorEscritura(String),
 }
-
-//impl Error for ErrorArchivo {}
 
 /// Funcion que recibe una ruta donde se encuentra el archivo con el mapa input, y
 /// retorna el mapa leido en formato de String.
@@ -50,16 +44,17 @@ pub fn leer_archivo(path: &str) -> Result<String, ErrorArchivo> {
     }
 }
 
-pub fn es_archivo_valido(input: &String) -> bool {
-    let mut error = false;
+/// Funcion que recibe el input leido y retorna si el archivo es valido,
+/// comprobando si contiene solamente los caracteres permitidos.
+pub fn tiene_caracteres_validos(input: &String) -> bool {
+    let mut caracteres_invalidos = false;
     for caracter in input.as_bytes() {
-        if (*caracter != BOMBA_U8) || (*caracter != PUNTO_U8){
-            error = true;
+        if (*caracter == BOMBA_U8) || (*caracter == PUNTO_U8) {
+            caracteres_invalidos = true;
         }
     }
-    error
+    caracteres_invalidos
 }
-
 
 /// Función que recibe una ruta en donde se guardara el archivo con el respectivo
 /// recuento de minas, y el contenido a escribir en formato de String.
