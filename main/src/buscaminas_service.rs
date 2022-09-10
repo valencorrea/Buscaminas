@@ -18,6 +18,8 @@ pub const BOMBA_U8: u8 = 42;
 pub const NUM_CERO_U8: u8 = 48;
 
 #[derive(Debug)]
+/// Struct de Buscaminas
+/// Contiene todas las estructuras necesarias para facilitar la implementación
 struct Buscaminas {
     mapa: Vec<Vec<u8>>,
     cant_filas: usize,
@@ -68,6 +70,9 @@ fn quitar_enters(mut input: String, cant_filas: usize, cant_columnas: usize) -> 
     input
 }
 
+/// Funcion que a partir de una tira de bytes, ubica cada uno de ellos en su respectiva
+/// posicion correspondiente al mapa de Buscaminas.
+/// Retorna un Buscaminas.
 fn crear_mapa_input(input: &[u8], mut buscaminas: Buscaminas) -> Buscaminas {
     let mut fila = 0;
     let mut columna = 0;
@@ -84,6 +89,10 @@ fn crear_mapa_input(input: &[u8], mut buscaminas: Buscaminas) -> Buscaminas {
     buscaminas
 }
 
+/// Función que dado un Buscaminas, agrega a cada una de las posiciones de su respectivo mapa
+/// la cantidad correcta de minas adyacentes a dicha posicion, representado como u8.
+/// En caso de no poseer minas adyacentes deja la posicion vacia.
+/// Retorna el Buscaminas.
 fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
     let mut mapa_con_minas =
         vec![vec![NUM_CERO_U8; buscaminas.cant_columnas]; buscaminas.cant_filas];
@@ -110,6 +119,8 @@ fn agregar_recuento_de_minas(mut buscaminas: Buscaminas) -> Buscaminas {
     buscaminas
 }
 
+/// Funcion que dada una posicion determinada en el mapa de Buscaminas, calcula la cantidad
+/// de minas adyacentes a esa posicion y la retorna.
 fn calcular_minas_adyacentes(
     indice_filas: usize,
     indice_columnas: usize,
@@ -131,6 +142,7 @@ fn calcular_minas_adyacentes(
     cant_minas
 }
 
+/// Funcion que dado un Buscaminas, obtiene y pasa su mapa de u8 a String y lo retorna.
 fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
     let mut output = String::new();
     for fila in 0..buscaminas.cant_filas {

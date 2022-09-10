@@ -27,6 +27,7 @@
 //! - *cargo test*
 //! - *cargo fmt*
 //! - *cargo clippy*
+//! - *cargo doc --open*
 
 use std::env;
 use std::process::ExitCode;
@@ -36,9 +37,9 @@ mod buscaminas_service;
 mod calculadora_service;
 mod interaccion_usuario;
 
-use archivos_service::tiene_caracteres_validos;
 use archivos_service::escribir_archivo;
 use archivos_service::leer_archivo;
+use archivos_service::tiene_caracteres_validos;
 use buscaminas_service::descubrir_minas;
 use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
@@ -49,7 +50,6 @@ pub const ERROR: &str = "ERROR";
 /// diferentes modulos.
 /// Recibe por parametros la ruta del archivo contenedor del mapa.
 /// Escribe en un nuevo archivo su resolución.
-/// Se asume que el contenido del archivo llega en el formato correcto
 fn main() -> ExitCode {
     let args: Vec<String> = env::args().collect();
 
@@ -58,6 +58,7 @@ fn main() -> ExitCode {
         Err(_) => String::from(ERROR),
     };
     if input.eq(&ERROR) || !tiene_caracteres_validos(&input) {
+        println!("Error leyendo el archivo. Por favor vuelva a intentar.\n");
         return ExitCode::FAILURE;
     };
 
@@ -68,7 +69,10 @@ fn main() -> ExitCode {
 
     match escribir_archivo("mapas/mapa_output.txt", output) {
         Ok(resultado_escritura) => resultado_escritura,
-        Err(_) => return ExitCode::FAILURE,
+        Err(_) => {
+            println!("Error escribiendo archivo.\n");
+            return ExitCode::FAILURE;
+        }
     }
     ExitCode::SUCCESS
 }
