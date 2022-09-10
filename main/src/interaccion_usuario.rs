@@ -4,7 +4,8 @@
 /// Breve bienvenida al programa evidenciando que inició correctamente
 pub fn dar_bienvenida() {
     println!("\nBIENVENIDOS AL BUSCAMINAS!!!\n");
-    println!("Con el siguiente programa vas a poder conocer las ubicaciones de las minas \
+    println!(
+        "Con el siguiente programa vas a poder conocer las ubicaciones de las minas \
     del mapa.\n");
 }
 

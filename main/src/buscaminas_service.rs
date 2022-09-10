@@ -10,11 +10,12 @@ use crate::calculadora_service::cant_columnas;
 use crate::calculadora_service::cant_filas;
 use std::string::ToString;
 
-const BOMBA_STRING: &str = "*";
-const SIN_BOMBAS_STRING: &str = ".";
-const ENTER_STRING: &str = "\n";
-const BOMBA_U8: u8 = 42;
-const NUM_CERO_U8: u8 = 48;
+pub const BOMBA_STRING: &str = "*";
+pub const SIN_BOMBAS_STRING: &str = ".";
+pub const ENTER_STRING: &str = "\n";
+
+pub const BOMBA_U8: u8 = 42;
+pub const NUM_CERO_U8: u8 = 48;
 
 #[derive(Debug)]
 struct Buscaminas {
@@ -131,7 +132,6 @@ fn calcular_minas_adyacentes(
 }
 
 fn pasar_mapa_a_string(buscaminas: Buscaminas) -> String {
-    // devuelve con los \n para que desp se pueda imprimir y guardar ok
     let mut output = String::new();
     for fila in 0..buscaminas.cant_filas {
         for columna in 0..buscaminas.cant_columnas {

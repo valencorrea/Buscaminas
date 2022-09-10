@@ -1,7 +1,1 @@
-- tests de integracion? -> libro/diapos
-- linter de clippy? (no tiene que arrojar warnings) cargo clippy
-- complejidades?-> ok (mencionarlo en el informe)
-- como documento las funciones y structs?
-https://blog.guillaume-gomez.fr/articles/2020-03-12+Guide+on+how+to+write+documentation+for+a+Rust+crate
-
 - agregar chequeo de que todas las lineas midan lo mismo y que los caracteres sean * o .

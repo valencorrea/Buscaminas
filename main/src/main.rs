@@ -41,6 +41,7 @@ use archivos_service::leer_archivo;
 use buscaminas_service::descubrir_minas;
 use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
+use crate::archivos_service::es_archivo_valido;
 
 /// Funcion principal que controla el flujo del programa relacionandose con
 /// diferentes modulos.
@@ -50,26 +51,21 @@ use interaccion_usuario::mostrar_mapa;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let input = match leer_archivo(&args[1]){
-        Ok(resultado_lectura) => {
-            resultado_lectura
-        }
-        Err(_) => exit(-1) // buscar un similar porque no libera memoria
+    let input = match leer_archivo(&args[1]) {
+        Ok(resultado_lectura) => resultado_lectura,
+        Err(_) => exit(-1), // buscar un similar porque no libera memoria
     };
+
+    if !es_archivo_valido(&input) { exit(-1)};
 
     dar_bienvenida();
     mostrar_mapa(&input, "input");
     let output = descubrir_minas(input);
-
     mostrar_mapa(&output, "output");
 
-    match escribir_archivo("mapas/mapa_output.txt", output){
-        Ok(resultado_escritura) => {
-            resultado_escritura
-        }
-        Err(_) => {
-            exit(-1)
-        }
+    match escribir_archivo("mapas/mapa_output.txt", output) {
+        Ok(resultado_escritura) => resultado_escritura,
+        Err(_) => exit(-1),
     };
     exit(0)
     // agregar que se guard con el mismo nombre

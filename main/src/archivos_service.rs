@@ -7,6 +7,9 @@ use std::fs::File;
 use std::io::Read;
 use std::ops::Add;
 
+pub const BOMBA_U8: u8 = 42;
+pub const PUNTO_U8: u8 = 46;
+
 //#[derive(Debug)]
 //https://www.lpalmieri.com/posts/error-handling-rust/
 pub enum ErrorArchivo {
@@ -42,9 +45,19 @@ pub fn leer_archivo(path: &str) -> Result<String, ErrorArchivo> {
         Ok(_) => {
             leer_archivo = leer_archivo.add("\n");
             Ok(leer_archivo)
-        },
+        }
         Err(error) => Err(ErrorArchivo::ErrorLectura(error.to_string())),
     }
+}
+
+pub fn es_archivo_valido(input: &String) -> bool {
+    let mut error = false;
+    for caracter in input.as_bytes() {
+        if (*caracter != BOMBA_U8) || (*caracter != PUNTO_U8){
+            error = true;
+        }
+    }
+    error
 }
 
 
