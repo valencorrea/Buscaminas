@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["dar_bienvenida","Breve bienvenida al programa evidenciando que inició correctamente"],["mostrar_mapa","Funcion que se encarga de recibir un mapa y mostrarlo por pantalla. Ejemplos de su visualización:"]]};

@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Buscaminas"><meta name="keywords" content="rust, rustlang, rust-lang, main"><title>main - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../dark.css" disabled><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../main/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../main/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"><a href="#">Crate main</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.1.0</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#modules">Modules</a></li><li><a href="#constants">Constants</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../main/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">main</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/main/main.rs.html#1-75">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="buscaminas"><a href="#buscaminas">Buscaminas</a></h2><h6 id="valentina-laura-correa---vcorreafiubaar---104415"><a href="#valentina-laura-correa---vcorreafiubaar---104415">Valentina Laura Correa - vcorrea@fi.uba.ar - 104415</a></h6>
+<hr />
+<h6 id="introducción"><a href="#introducción">Introducción</a></h6>
+<p>La presente entrega contiene las funcionalidades pedidas para
+el trabajo practico nº1 de la materia Taller de Programacion I - curso Deymonnaz.</p>
+<h6 id="objetivo"><a href="#objetivo">Objetivo</a></h6>
+<p>El objetivo de este trabajo practico consta de simular la logica del juego
+<a href="https://es.wikipedia.org/wiki/Buscaminas">Buscaminas</a>
+implementandolo en
+<a href="https://doc.rust-lang.org/rust-by-example/index.html">Rust</a>
+siguiendo los conceptos trabajados en clase.</p>
+<p>Para acceder al repositorio donde fue desarrollado el mismo
+se puede visitar el siguiente <a href="https://github.com/valencorrea/Buscaminas">enlace</a>.</p>
+<h6 id="ejecución"><a href="#ejecución">Ejecución</a></h6>
+<p>Para comenzar a utilizar el programa se deberá hacer uso del comando <em>cargo run</em> seguido
+de la ruta en donde se encuentra el archivo de entrada.
+En particular, los archivos de entrada estan dentro de <em>/main/src/mapas</em>, ruta en
+donde tambien se guardara el archivo de salida.</p>
+<p><em>Ejemplo: cargo run mapas/mapa_input.txt</em></p>
+<p>Otros comandos de interes:</p>
+<ul>
+<li><em>cargo test</em></li>
+<li><em>cargo fmt</em></li>
+<li><em>cargo clippy</em></li>
+<li><em>cargo doc –open</em></li>
+</ul>
+</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="mod" href="archivos_service/index.html" title="main::archivos_service mod">archivos_service</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="item-right docblock-short"><p>Modulo que se centra en las funcionalidades referentes a la interacción
+con los archivos.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="buscaminas_service/index.html" title="main::buscaminas_service mod">buscaminas_service</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="item-right docblock-short"><p>Service principal, ya que es el que contiene la logica mas importante del
+buscaminas. Se encuentra modularizado en las distintas funcionalidades requeridas para
+lograr develar las minas.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="calculadora_service/index.html" title="main::calculadora_service mod">calculadora_service</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="item-right docblock-short"><p>Este modulo tiene como objetivo centralizar las operaciones y calculos
+realizados en base a las filas y columnas de la matriz del Buscaminas.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="interaccion_usuario/index.html" title="main::interaccion_usuario mod">interaccion_usuario</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="item-right docblock-short"><p>Modulo encargado de hacer mas amigable la interaccion con el programa,
+buscando mantener informado al usuario.</p>
+</div></div></div><h2 id="constants" class="small-section-header"><a href="#constants">Constants</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.ERROR.html" title="main::ERROR constant">ERROR</a></div><div class="item-right docblock-short"></div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.main.html" title="main::main fn">main</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="item-right docblock-short"><p>Funcion principal que controla el flujo del programa relacionandose con
+diferentes modulos.
+Recibe por parametros la ruta del archivo contenedor del mapa.
+Escribe en un nuevo archivo su resolución.
+Se asume que el contenido del archivo llega en el formato correcto</p>
+</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="main" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
+</body></html>

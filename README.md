@@ -19,10 +19,11 @@ El objetivo de este trabajo practico consta de simular la logica del juego [Busc
 Para comenzar a utilizar el programa se deberá hacer uso del comando *cargo run* seguido de la ruta en donde se encuentra el archivo de entrada.
 En particular, los archivos de entrada estan dentro de */main/src/mapas*, ruta en donde tambien se guardara el archivo de salida.
 
-*Ejemplo: cargo run /mapas/mapa_input.txt*
+*Ejemplo: cargo run mapas/mapa_input.txt*
 
 Otros comandos de interes:
 - *cargo test*
 - *cargo fmt*
 - *cargo clippy*
 - *cargo test*
+- *cargo doc --open*

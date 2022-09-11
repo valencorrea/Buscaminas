@@ -30,7 +30,6 @@
 //! - *cargo doc --open*
 
 use std::env;
-use std::process::ExitCode;
 
 mod archivos_service;
 mod buscaminas_service;
@@ -45,21 +44,24 @@ use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
 
 pub const ERROR: &str = "ERROR";
+use crate::archivos_service::ErrorArchivo;
+use crate::ErrorArchivo::ErrorLectura;
+
 
 /// Funcion principal que controla el flujo del programa relacionandose con
 /// diferentes modulos.
 /// Recibe por parametros la ruta del archivo contenedor del mapa.
 /// Escribe en un nuevo archivo su resolución.
-fn main() -> ExitCode {
+fn main() -> Result<(), ErrorArchivo> {
     let args: Vec<String> = env::args().collect();
 
     let input = match leer_archivo(&args[1]) {
         Ok(resultado_lectura) => resultado_lectura,
-        Err(_) => String::from(ERROR),
+        Err(error) => return Err(error),
     };
     if input.eq(&ERROR) || !tiene_caracteres_validos(&input) {
         println!("Error leyendo el archivo. Por favor vuelva a intentar.\n");
-        return ExitCode::FAILURE;
+        return Err(ErrorLectura(String::from("Error leyendo el archivo")))
     };
 
     dar_bienvenida();
@@ -69,10 +71,10 @@ fn main() -> ExitCode {
 
     match escribir_archivo("mapas/mapa_output.txt", output) {
         Ok(resultado_escritura) => resultado_escritura,
-        Err(_) => {
+        Err(error) => {
             println!("Error escribiendo archivo.\n");
-            return ExitCode::FAILURE;
+            return Err(error);
         }
     }
-    ExitCode::SUCCESS
+    Ok(())
 }

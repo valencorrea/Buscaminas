@@ -4,7 +4,6 @@ mod buscaminas_service;
 #[path = "../src/calculadora_service.rs"]
 mod calculadora_service;
 
-
 #[test]
 fn descubrir_minas_input_3x3_1_mina() {
     // Se puede verificar corriendo el mapa mapa_input_test_integracion

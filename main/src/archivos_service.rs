@@ -8,6 +8,7 @@ use std::ops::Add;
 pub const BOMBA_U8: u8 = 42;
 pub const PUNTO_U8: u8 = 46;
 
+#[derive(Debug)]
 pub enum ErrorArchivo {
     ErrorLectura(String),
     ErrorEscritura(String),
