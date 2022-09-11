@@ -79,6 +79,7 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
+<span id="76">76</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Modulo que se centra en las funcionalidades referentes a la interacción</span>
 <span class="doccomment">//! con los archivos.</span>
 <span class="kw">use</span> <span class="ident">std::fs</span>;
@@ -89,6 +90,7 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BOMBA_U8</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">42</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PUNTO_U8</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">46</span>;
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ErrorArchivo</span> {
     <span class="ident">ErrorLectura</span>(<span class="ident">String</span>),
     <span class="ident">ErrorEscritura</span>(<span class="ident">String</span>),

@@ -43,10 +43,8 @@ use buscaminas_service::descubrir_minas;
 use interaccion_usuario::dar_bienvenida;
 use interaccion_usuario::mostrar_mapa;
 
-pub const ERROR: &str = "ERROR";
 use crate::archivos_service::ErrorArchivo;
 use crate::ErrorArchivo::ErrorLectura;
-
 
 /// Funcion principal que controla el flujo del programa relacionandose con
 /// diferentes modulos.
@@ -59,9 +57,9 @@ fn main() -> Result<(), ErrorArchivo> {
         Ok(resultado_lectura) => resultado_lectura,
         Err(error) => return Err(error),
     };
-    if input.eq(&ERROR) || !tiene_caracteres_validos(&input) {
+    if !tiene_caracteres_validos(&input) {
         println!("Error leyendo el archivo. Por favor vuelva a intentar.\n");
-        return Err(ErrorLectura(String::from("Error leyendo el archivo")))
+        return Err(ErrorLectura(String::from("Error leyendo el archivo")));
     };
 
     dar_bienvenida();
